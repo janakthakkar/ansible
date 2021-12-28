@@ -1,5 +1,5 @@
 - name: Setup Node Exporter Client  
-  hosts: test1
+  hosts: hostname
   become: yes
   tasks:
 

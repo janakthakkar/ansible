@@ -1,0 +1,14 @@
+- name: Check if host is added
+  shell: grep -c "instance_ip:9600" /etc/prometheus/prometheus.yml || true
+  register: test_grep
+
+
+- name: add host to properties
+  blockinfile:
+    path: /etc/prometheus/prometheus.yml
+    block: |2 # that means it uses two line space for next line
+        - job_name: 'instance_name'
+          scrape_interval: 10s
+          static_configs:
+            - targets: ['instance_ip:9600']
+  when: test_grep.stdout == "0"

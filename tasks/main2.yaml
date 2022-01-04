@@ -1,0 +1,6 @@
+- name: Setup Node Exporter Client  
+  hosts: hostname
+  become: yes
+  tasks:
+  
+    - include: tasks/add_instance_prometheus.yaml

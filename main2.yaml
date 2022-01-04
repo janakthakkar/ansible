@@ -1,5 +1,5 @@
 - name: Setup Node Exporter Client  
-  hosts: hostname
+  hosts: prometheus
   become: yes
   tasks:
   

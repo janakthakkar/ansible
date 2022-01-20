@@ -1,0 +1,27 @@
+- name: Download go
+  get_url:
+    url: https://dl.google.com/go/go1.17.4.linux-amd64.tar.gz
+    dest: /tmp
+
+- name: Extract go language tar file into /tmp
+  unarchive:
+    src: /tmp/go1.17.4.linux-amd64.tar.gz
+    dest: /usr/local/
+    mode: '0755'
+    remote_src: yes
+
+- name: Create a symbolic link
+  ansible.builtin.file:
+    src: /usr/local/go/bin/go
+    dest: /usr/bin/go
+    state: link
+
+- name: Add go directory to system-wide $PATH.
+  copy:
+    dest: /etc/profile.d/go.sh
+    content: 'PATH=$PATH:/usr/local/go/bin'
+
+- name: source go.sh  
+  shell: source /etc/profile.d/go.sh
+  args:
+    executable: /bin/bash

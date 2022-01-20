@@ -1,0 +1,13 @@
+- name: Setup Node Exporter Client  
+  hosts: hostname
+  become: yes
+  tasks:
+
+    - include: tasks/node_exporter_client.yaml
+
+- name: Add Node Exporter Instance to prometheus server for monitoring 
+  hosts: prometheus
+  become: yes
+  tasks:
+  
+    - include: tasks/add_instance_prometheus.yaml

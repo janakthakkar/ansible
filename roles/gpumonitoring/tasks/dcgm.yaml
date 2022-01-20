@@ -1,0 +1,56 @@
+# Set up the CUDA network repository meta-data, GPG key
+
+- name: Download repo
+  get_url:
+    url: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin
+    dest: /etc/apt/preferences.d/cuda-repository-pin-600
+
+- name: Add an Apt signing key, uses whichever key is at the URL
+  ansible.builtin.apt_key:
+    url: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub
+    state: present
+
+- name: Add specified repository into sources list
+  ansible.builtin.apt_repository:
+    repo: deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /
+    state: present
+
+
+# Install DCGM
+
+- name: Update repositories cache and install datacenter-gpu-manager package
+  apt:
+    name: datacenter-gpu-manager
+    update_cache: yes
+    
+# Install Exporter
+
+# Install Make & Git
+
+- name: installing all required dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+       - make
+       - git
+       - gcc
+
+- name: Download the code from the GitRepo
+  #become: yes
+  git:
+    repo: 'https://github.com/NVIDIA/gpu-monitoring-tools.git'
+    dest: "/tmp/gpu-monitoring-tools"
+
+
+- name: Build the default target using "make binary" command
+  make:
+    chdir: /tmp/gpu-monitoring-tools
+    target: binary
+  #become: yes
+
+- name: Run 'make install' target as root
+  make:
+    chdir: /tmp/gpu-monitoring-tools
+    target: install
+  #become: yes

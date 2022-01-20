@@ -1,0 +1,17 @@
+---
+# tasks file for seechangemonitoring
+
+- name: Checking if dcgm-exporter command exist or not
+  ansible.builtin.command: ls /usr/bin/dcgm-exporter
+  register: dcgm_command_result
+  ignore_errors: True
+
+- include: tasks/go.yaml
+  when:  dcgm_command_result.stdout == ""
+    
+- include: tasks/dcgm.yaml
+  when:  dcgm_command_result.stdout == ""
+
+
+
+

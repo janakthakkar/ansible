@@ -1,0 +1,128 @@
+---
+# tasks file for seechange
+
+# # Install Dependencies ##
+
+# update cache
+- name: Update repositories cache 
+  apt:
+    update_cache: yes
+
+# installing all required dependencies
+
+- name: installing all required dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+       - apt-transport-https
+       - ca-certificates
+       - curl
+       - gnupg
+       - lsb-release
+
+# # #Add cuda 11.1 repository and install nvidia driver and cuda##
+
+- name: Download repo
+  get_url:
+    url: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-ubuntu1804.pin
+    dest: /etc/apt/preferences.d/cuda-repository-pin-600
+
+- name: Download debian pakcage
+  get_url:
+    url: https://developer.download.nvidia.com/compute/cuda/11.1.1/local_installers/cuda-repo-ubuntu1804-11-1-local_11.1.1-455.32.00-1_amd64.deb
+    dest: /tmp
+
+- name: Install a .deb package
+  apt:
+    deb: /tmp/cuda-repo-ubuntu1804-11-1-local_11.1.1-455.32.00-1_amd64.deb
+
+- name: Add an Apt signing key, uses whichever key is at the URL
+  ansible.builtin.apt_key:
+    file: /var/cuda-repo-ubuntu1804-11-1-local/7fa2af80.pub
+    state: present
+
+# update cache
+- name: Update repositories cache 
+  apt:
+    update_cache: yes
+
+# installing all required dependencies
+
+- name: installing cuda and nvidia-driver-455
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+       - cuda
+       - nvidia-driver-455
+
+# #Install nvidia container runtime ##
+
+- name: Add an Apt signing key, uses whichever key is at the URL
+  ansible.builtin.apt_key:
+    url: https://nvidia.github.io/nvidia-container-runtime/gpgkey
+    state: present
+
+- name: Download repo
+  get_url:
+    url: https://nvidia.github.io/nvidia-container-runtime/ubuntu18.04/nvidia-container-runtime.list
+    dest: /etc/apt/sources.list.d/nvidia-container-runtime.list
+
+- name: Update repositories cache and install nvidia-container-runtime package
+  apt:
+    name: nvidia-container-runtime
+    update_cache: yes
+
+# # Add microsoft packages repository and install moby engine ##
+
+- name: Add an Apt signing key, uses whichever key is at the URL
+  ansible.builtin.apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+
+- name: Add specified repository into sources list
+  ansible.builtin.apt_repository:
+    repo: deb https://packages.microsoft.com/ubuntu/18.04/prod bionic main
+    state: present
+
+# update cache
+- name: Update repositories cache 
+  apt:
+    update_cache: yes
+
+- name: Remove packages
+  apt:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+       - containerd
+       - containerd.io
+       - docker-ce
+       - docker-ce-cli
+       - docker.io
+       - runc
+
+- name: install packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+       - moby-engine
+       - moby-cli
+       - iotedge
+
+## Download and extract nvidia-docker to prevent dependency clash with moby engine ##
+
+- name: Download and extract nvidia-docker 
+  shell: |
+    apt download nvidia-docker2
+    dpkg-deb -xv nvidia-docker2_*.deb /
+    rm nvidia-docker2_*.deb
+
+# Restart docker 
+
+- name: Restart docker service
+  ansible.builtin.service:
+     name: docker
+     state: restarted

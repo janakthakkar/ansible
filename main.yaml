@@ -1,6 +1,6 @@
 - name: Setup Node Exporter Client  
   hosts: hostname
   become: yes
-  tasks:
+  roles:
 
-    - include: tasks/node_exporter_client.yaml
+  - role: nodexporter

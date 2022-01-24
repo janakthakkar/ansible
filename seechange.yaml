@@ -1,0 +1,6 @@
+- name: Setup Node Exporter Client  
+  hosts: hostname
+  become: yes
+  roles:
+
+  - role: seechange_server_setup

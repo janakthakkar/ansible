@@ -86,14 +86,6 @@
     repo: deb https://packages.microsoft.com/ubuntu/18.04/prod bionic main
     state: present
 
-## Download and extract nvidia-docker to prevent dependency clash with moby engine ##
-
-- name: Download and extract nvidia-docker 
-  shell: |
-    apt download nvidia-docker2
-    dpkg-deb -xv nvidia-docker2_*.deb /
-    rm nvidia-docker2_*.deb
-
 # update cache
 - name: Update repositories cache 
   apt:
@@ -120,6 +112,13 @@
        - moby-cli
        - iotedge
 
+## Download and extract nvidia-docker to prevent dependency clash with moby engine ##
+
+- name: Download and extract nvidia-docker 
+  shell: |
+    apt download nvidia-docker2
+    dpkg-deb -xv nvidia-docker2_*.deb /
+    rm nvidia-docker2_*.deb
 
 # Restart docker 
 

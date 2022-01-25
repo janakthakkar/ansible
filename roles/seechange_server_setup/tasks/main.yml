@@ -75,6 +75,11 @@
   apt:
     update_cache: yes
 
+- name: Remove packages
+  apt:
+    name: nvidia-container-runtime
+    state: absent
+
 - name: Update repositories cache and install nvidia-container-runtime package
   apt:
     name: nvidia-container-runtime
@@ -96,10 +101,6 @@
   apt:
     update_cache: yes
 
-- name: Remove packages
-  apt:
-    name: nvidia-container-runtime
-    state: absent
 
 - name: Pause for 1 minutes
   pause:

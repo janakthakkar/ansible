@@ -96,6 +96,11 @@
   apt:
     update_cache: yes
 
+- name: Remove packages
+  apt:
+    name: nvidia-container-runtime
+    state: absent
+
 - name: Pause for 1 minutes
   pause:
     minutes: 1

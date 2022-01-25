@@ -69,10 +69,15 @@
     url: https://nvidia.github.io/nvidia-container-runtime/ubuntu18.04/nvidia-container-runtime.list
     dest: /etc/apt/sources.list.d/nvidia-container-runtime.list
 
+
+# update cache
+- name: Update repositories cache 
+  apt:
+    update_cache: yes
+
 - name: Update repositories cache and install nvidia-container-runtime package
   apt:
     name: nvidia-container-runtime
-    update_cache: yes
 
 # # Add microsoft packages repository and install moby engine ##
 
@@ -111,6 +116,7 @@
        - moby-engine
        - moby-cli
        - iotedge
+       - nvidia-container-runtime
 
 ## Download and extract nvidia-docker to prevent dependency clash with moby engine ##
 

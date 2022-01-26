@@ -32,6 +32,14 @@
        - docker.io
        - runc
 
+- name: Update repositories cache 
+  apt:
+    update_cache: yes
+
+- name: Update repositories cache and install nvidia-container-runtime package
+  apt:
+    name: nvidia-container-runtime
+
 - name: install packages
   apt:
     name: "{{ item }}"
@@ -40,7 +48,6 @@
        - moby-engine
        - moby-cli
        - iotedge
-       - nvidia-container-runtime
 
 ## Download and extract nvidia-docker to prevent dependency clash with moby engine ##
 

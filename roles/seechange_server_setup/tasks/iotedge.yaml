@@ -39,6 +39,7 @@
 - name: Update repositories cache and install nvidia-container-runtime package
   apt:
     name: nvidia-container-runtime
+    update_cache: yes
 
 - name: install packages
   apt:

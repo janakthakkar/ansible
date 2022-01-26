@@ -2,7 +2,7 @@
 # tasks file for nodeexporter_add_prometheus
 
 #- name: Check if host is added
-- stat: grep -c "instance_ip:9600" /etc/prometheus/prometheus.yml || true
+- stat: grep -c "instance_ip:9600" /etc/prometheus/prometheus.yml #|| true
   register: test_grep
 
 

@@ -1,4 +1,4 @@
-- include: tasks/a.yaml
+- include: tasks/cuda-nvidia.yaml
   #when:  dcgm_command_result.stdout == ""
     
 - include: tasks/moby.yaml

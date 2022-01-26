@@ -11,7 +11,7 @@
     path: /etc/prometheus/prometheus.yml
     block: |2 # that means it uses two line space for next line
         - job_name: 'instance_name'
-          scrape_interval: 10s
+          scrape_interval: 10s 
           static_configs:
             - targets: ['instance_ip:9600']
   when: test_grep.stdout == "0"

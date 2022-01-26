@@ -1,11 +1,11 @@
 - name: Setup Node Exporter Client  
-  #hosts: prometheus
-  hosts: seechange
+  hosts: prometheus
+  #hosts: seechange
   become: yes
   #vars:
   #  - distribution: $(. /etc/os-release;echo $ID$VERSION_ID)
   tasks:
   
     #- include: tasks/add_instance_prometheus.yaml
-    - include: tasks/seechange_setup.yaml
+    #- include: tasks/seechange_setup.yaml
       

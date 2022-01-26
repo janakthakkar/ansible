@@ -1,0 +1,9 @@
+# update cache
+- name: Update repositories cache 
+  apt:
+    update_cache: yes
+
+- name: Update repositories cache and install nvidia-container-runtime package
+  apt:
+    name: telnet
+    state: present

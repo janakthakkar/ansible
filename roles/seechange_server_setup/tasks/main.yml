@@ -1,16 +1,18 @@
 
-- name: Checking if nvidia-smi command exist or not
-  ansible.builtin.command: ls /usr/bin/nvidia-smi
+- stat: path=/usr/bin/nvidia-smi
   register: nvidia_smi_command_result
-  ignore_errors: True
 
 - include: tasks/cuda-nvidia.yaml
-  when:  nvidia_smi_command_result == ""
+  when:  not nvidia_smi_command_result.stat.exists
 
-- name: Checking if iotedge command exist or not
-  ansible.builtin.command: ls /usr/bin/iotedge
+- stat: path=/usr/bin/iotedge
   register: iotedge_command_result
-  ignore_errors: True
 
 - include: tasks/iotedge.yaml
-  when:  iotedge_command_result == ""
+  when:  not iotedge_command_result.stat.exists
+
+# - stat: path=/usr/bin/telnet
+#   register: st
+
+# - include: tasks/test.yaml
+#   when: not st.stat.exists

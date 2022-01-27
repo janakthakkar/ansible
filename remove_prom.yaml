@@ -1,0 +1,6 @@
+- name: Setup Node Exporter Client  
+  hosts: prometheus
+  become: yes
+  roles:
+
+  - role: nodeexporter_remove_prometheus

@@ -3,4 +3,4 @@
   become: yes
   roles:
 
-  - role: nodeexporter_remove_prometheus
+  - role: gpu_remove_prometheus

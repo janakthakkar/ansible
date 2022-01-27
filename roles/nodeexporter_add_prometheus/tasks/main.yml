@@ -1,8 +1,8 @@
 ---
 # tasks file for nodeexporter_add_prometheus
 
-- stat: grep "instance_ip:9600" /etc/prometheus/prometheus.yml
-  register: test_grep
+# - shell: grep "instance_ip:9600" /etc/prometheus/prometheus.yml
+#   register: test_grep
 
 - name: add host to properties
   blockinfile:
@@ -13,7 +13,7 @@
           static_configs:
             - targets: ['instance_ip:9600']
    #when: test_grep.stdout == "0"
-  when: not test_grep.stat.exists
+  #when: not test_grep.stat.exists
 - name: Restart prometheus service
   ansible.builtin.service:
      name: prometheus

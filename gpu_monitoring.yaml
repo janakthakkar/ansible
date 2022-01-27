@@ -1,5 +1,5 @@
--
-  hosts: seechange
+- name: Setup GPU Monitoring Client 
+  hosts: hostname
   become: yes
   roles:
 

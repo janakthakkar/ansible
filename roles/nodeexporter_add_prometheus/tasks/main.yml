@@ -6,14 +6,14 @@
 
 - name: add host to properties
   blockinfile:
-    path: /etc/prometheus/prometheus.yml
+    path: /etc/prometheus/prometheus1.yml
+    marker: "# {mark} ANSIBLE MANAGED BLOCK insertion instance_name"
     block: |2 # that means it uses two line space for next line
         - job_name: 'instance_name'
           scrape_interval: 10s 
           static_configs:
             - targets: ['instance_ip:9600']
-   #when: test_grep.stdout == "0"
-  #when: not test_grep.stat.exists
+
 - name: Restart prometheus service
   ansible.builtin.service:
      name: prometheus

@@ -4,7 +4,7 @@
   amazon.aws.ec2:
     key_name: "{{ key_name }}"
     region: "{{ region_name }}"
-    profile: net4io
+    #profile: net4io
     instance_type: "{{ instance_type }}"
     image: "{{ ami_id }}"
     #vpc_subnet_id: "{{ random_subnet }}"

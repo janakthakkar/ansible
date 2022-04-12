@@ -1,0 +1,4 @@
+[damian]18.135.97.251 ansible_user=ubuntu ansible_ssh_private_key_file=~/key/net4ionew.pem ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+35.178.207.235 ansible_user=ubuntu ansible_ssh_private_key_file=~/key/net4ionew.pem ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+18.133.157.75 ansible_user=ubuntu ansible_ssh_private_key_file=~/key/net4ionew.pem ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+18.132.196.4 ansible_user=ubuntu ansible_ssh_private_key_file=~/key/net4ionew.pem ansible_ssh_extra_args='-o StrictHostKeyChecking=no'

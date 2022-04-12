@@ -1,0 +1,33 @@
+---
+# tasks file for gpu_add_prometheus
+- name: creating new ec2 instance
+  amazon.aws.ec2:
+    key_name: "{{ key_name }}"
+    region: "{{ region_name }}"
+    profile: net4io
+    instance_type: "{{ instance_type }}"
+    image: "{{ ami_id }}"
+    #vpc_subnet_id: "{{ random_subnet }}"
+    group: "{{ group }}"
+    vpc_subnet_id: "{{ vpc_subnet_id }}"
+    volumes:
+      - device_name: /dev/xvda
+        volume_type: gp2
+        volume_size: 50
+    wait: yes
+    exact_count: 1
+    instance_tags:
+      Name: "{{ instance_name }}"
+      Env: test
+    count_tag: 
+      Name: "{{ instance_name }}"
+      Env: test
+    assign_public_ip: yes
+  register: ec2
+
+- name: Add the newly created EC2 instance(s) to the local host group
+  local_action: lineinfile 
+                path="ec2inventory"
+                regexp={{ item.public_ip }} 
+                insertafter="[damianec2]" line="{{ item.public_ip }} ansible_user=ubuntu ansible_ssh_private_key_file=~/key/net4ionew.pem ansible_ssh_extra_args='-o StrictHostKeyChecking=no'"
+  with_items: "{{ ec2.instances }}"
